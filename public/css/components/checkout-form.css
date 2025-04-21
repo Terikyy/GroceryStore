@@ -9,7 +9,7 @@
     padding-right: 2rem;
 }
 
-.basket-container {
+.cart-container {
     flex: 1;
     background: var(--content-bg-secondary);
     padding: 1.5rem;
@@ -55,17 +55,17 @@ button:hover {
     background: var(--accent-secondary);
 }
 
-.basket-container h2 {
+.cart-container h2 {
     margin-bottom: 1rem;
     color: var(--content-text-primary);
 }
 
-.basket-container ul {
+.cart-container ul {
     list-style: none;
     padding: 0;
 }
 
-.basket-container li {
+.cart-container li {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;

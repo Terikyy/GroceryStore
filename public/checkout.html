@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>FRESHN - Checkout</title>
-    <script src="js/checkout.js"></script>
+    <script type="module" src="js/checkout.js"></script>
     <link rel="stylesheet" href="css/checkout.css">
 </head>
 <body>
@@ -45,13 +45,15 @@
         <label>Payment details</label>
         <p>Please note that we currently only accept payment on account. You will receive an email with payment details after placing your order.</p>
 
-        <button id="submit-order">Submit order</button>
+        <button id="submit-order" disabled>Submit order</button>
     </div>
 
-    <!-- Basket Section -->
-    <div class="basket-container">
-        <h2>Your Basket</h2>
-        <ul id="checkout-items"></ul>
+    <!-- Cart Section -->
+    <div id="cart-section" class="cart-container">
+        <h2>Your Cart</h2>
+        <ul id="checkout-items">
+            <!-- Cart items will be dynamically populated here by checkout.js -->
+        </ul>
         <p>Total: <span id="checkout-total"></span></p>
     </div>
 </div>

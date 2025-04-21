@@ -1,4 +1,4 @@
-export class ProductManager {
+export default class ProductManager {
     constructor(cartManager) {
         this.apiBaseUrl = '../src/api.php';
         this.cartManager = cartManager;
@@ -74,5 +74,3 @@ export class ProductManager {
         };
     }
 }
-
-export default ProductManager;

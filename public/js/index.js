@@ -1,7 +1,7 @@
-import ProductManager from './modules/ProductManager.js';
-import SearchManager from './modules/SearchManager.js';
-import CategoryManager from './modules/CategoryManager.js';
-import CartManager from './modules/CartManager.js';
+import ProductManager from './modules/index/ProductManager.js';
+import SearchManager from './modules/index/SearchManager.js';
+import CategoryManager from './modules/index/CategoryManager.js';
+import CartManager from './modules/index/CartManager.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize cart manager first

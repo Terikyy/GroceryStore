@@ -1,4 +1,4 @@
-class CartManager {
+export default class CartManager {
     constructor() {
         try {
             this.cart = JSON.parse(localStorage.getItem("cart")) || {};
@@ -170,5 +170,3 @@ class CartManager {
         }
     }
 }
-
-export default CartManager;
