@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESHN</title>
+    <script type="module" src="js/index.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<!-- Top search bar -->
+<header>
+    <div class="logo"><a id="home" href="#"><img src="images/freshn_logo.png" alt="Company Logo"></a></div>
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search...">
+        <button class="search-button">
+            <img src="images/search_icon.png" alt="Search">
+        </button>
+    </div>
+    <div class="shopping-cart"><a href="#"><img src="images/cart_icon.png" alt="Shopping Cart"></a></div>
+    <div id="shopping-cart" class="cart-hidden">
+        <h2>Shopping Basket</h2>
+        <ul id="cart-items"></ul>
+        <button id="checkout">Checkout</button>
+    </div>
+</header>
+
+<!-- Main container with sidebar and content -->
+<div class="container">
+    <div class="sidebar">
+        <nav>
+            <ul class="menu">
+                <li>
+                    <details>
+                        <summary>Food & Beverages</summary>
+                        <ul>
+                            <li><a href="#">Frozen Foods</a></li>
+                            <li><a href="#">Meat & Dairy</a></li>
+                            <li><a href="#">Fruits</a></li>
+                            <li><a href="#">Beverages</a></li>
+                            <li><a href="#">Snacks & Confectionery</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>Household Essentials</summary>
+                        <ul>
+                            <li><a href="#">Cleaning & Laundry</a></li>
+                            <li><a href="#">Personal Care</a></li>
+                            <li><a href="#">Health & Medicine</a></li>
+                        </ul>
+                    </details>
+                </li>
+                <li>
+                    <details>
+                        <summary>Pet Supplies</summary>
+                        <ul>
+                            <li><a href="#">Pet Food</a></li>
+                        </ul>
+                    </details>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content area -->
+    <div class="main-content">
+        <!-- Tiles get dynamically added here -->
+    </div>
+</div>
+</body>
+</html>

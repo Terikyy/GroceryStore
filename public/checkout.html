@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FRESHN - Checkout</title>
+    <script src="js/modules/CheckoutManager.js"></script>
+    <link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+<header>
+    <div class="logo"><img src="images/freshn_logo.png" alt="Company Logo"></div>
+    <div class="return"><a href="index.html">⏎ Return to store</a></div>
+</header>
+<div class="checkout-content">
+    <!-- Form Section -->
+    <div class="form-section">
+        <label for="email">Contact Information</label>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="text" id="mobile" placeholder="Mobile number" required>
+
+        <label>Personal details</label>
+        <div class="inline-fields">
+            <input type="text" id="first-name" placeholder="First Name" required>
+            <input type="text" id="last-name" placeholder="Last Name" required>
+        </div>
+
+        <input type="text" id="street" placeholder="House number and street" required>
+        <input type="text" id="additional-information" placeholder="Apartment/Suite">
+
+        <div class="inline-fields">
+            <input type="number" id="area-code" placeholder="Post Code" required>
+            <select id="state" required>
+                <option value="act">ACT</option>
+                <option value="nsw">NSW</option>
+                <option value="nt">NT</option>
+                <option value="qld">QLD</option>
+                <option value="sa">SA</option>
+                <option value="tas">TAS</option>
+                <option value="vic">VIC</option>
+                <option value="wa">WA</option>
+                <option value="others">Others</option>
+            </select>
+        </div>
+
+        <label>Payment details</label>
+        <p>Please note that we currently only accept payment on account. You will receive an email with payment details after placing your order.</p>
+
+        <button id="submit-order">Submit order</button>
+    </div>
+
+    <!-- Basket Section -->
+    <div class="basket-container">
+        <h2>Your Basket</h2>
+        <ul id="checkout-items"></ul>
+        <p>Total: <span id="checkout-total"></span></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+.sidebar {
+    width: 200px;
+    background-color: var(--content-bg-secondary);
+    padding: 1rem;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-light);
+    max-height: calc(100vh - 60px); /* Ensures it doesn't exceed viewport height minus header height*/
+}
+
+/* Remove default list styles */
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Expandable category container */
+.sidebar details {
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Style the summary element */
+.sidebar summary {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--content-text-primary);
+    background-color: var(--content-bg-secondary);
+    border-radius: 4px;
+    font-weight: bold;
+    position: relative;
+    list-style: none;
+}
+
+/* Add custom expand/collapse indicator */
+.sidebar summary::before {
+    content: "+";
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 8px;
+    color: var(--content-text-primary);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Change icon when expanded */
+.sidebar details[open] summary::before {
+    content: "−";
+    transform: rotate(0deg);
+}
+
+/* Hover effect for expandable categories */
+.sidebar summary:hover {
+    background-color: var(--content-bg-tertiary);
+}
+
+/* Subcategory list */
+.sidebar details ul {
+    list-style-type: none;
+    padding-left: 1rem;
+    margin: 0;
+    background-color: var(--content-bg-secondary);
+}
+
+/* Style subcategory items */
+.sidebar details ul li {
+    margin-bottom: 0.25rem;
+}
+
+/* Style subcategory links */
+.sidebar details ul li a {
+    padding: 0.5rem;
+    display: block;
+    color: var(--content-text-secondary);
+}
+
+/* Hover effect for subcategory links */
+.sidebar details ul li a:hover {
+    background-color: var(--content-bg-tertiary);
+}
+
+/* Active link styling */
+.sidebar nav ul li a.active {
+    background-color: var(--content-bg-tertiary);
+    border-left: 3px solid var(--accent-primary);
+    font-weight: bold;
+}

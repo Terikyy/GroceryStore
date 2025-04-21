@@ -1,0 +1,6 @@
+Cart functionality
+Checkout
+    Form validation
+    Cart listing
+Search by category
+Readme

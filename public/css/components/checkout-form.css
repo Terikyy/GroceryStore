@@ -1,0 +1,89 @@
+/* Overwrite header link styling for return button*/
+.return a {
+    padding: 0.5rem;
+    display: block;
+}
+
+.form-section {
+    flex: 1;
+    padding-right: 2rem;
+}
+
+.basket-container {
+    flex: 1;
+    background: var(--content-bg-secondary);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: var(--content-text-primary);
+    margin: 0.5rem 0 0.2rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    background: var(--content-bg-tertiary);
+    color: var(--content-text-primary);
+}
+
+input:focus, select:focus {
+    border-color: var(--accent-primary);
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent-primary);
+    color: var(--header-text);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: var(--accent-secondary);
+}
+
+.basket-container h2 {
+    margin-bottom: 1rem;
+    color: var(--content-text-primary);
+}
+
+.basket-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.basket-container li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+#checkout-total {
+    font-weight: bold;
+    color: var(--content-text-secondary);
+}
+
+/* Adjustments for side-by-side input fields */
+.inline-fields {
+    display: flex;
+    gap: 1rem;
+}
+
+.inline-fields input,
+.inline-fields select {
+    flex: 1;
+}
