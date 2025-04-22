@@ -19,15 +19,3 @@ html, body {
     color: var(--content-text-primary);
     max-height: calc(100vh - 60px); /* Ensures it doesn't exceed viewport height minus header height*/
 }
-
-.checkout-content {
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
-    background: var(--content-bg-primary);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px var(--shadow-color);
-    padding: 2rem;
-    max-width: 800px;
-    margin: 2rem auto;
-}

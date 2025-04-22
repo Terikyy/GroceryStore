@@ -30,18 +30,18 @@
     margin: 10px 0;
 }
 
-/* Product Price */
+/* Product Description */
 .product-tile p {
     color: var(--content-text-secondary);
     font-size: 1rem;
     margin-bottom: 10px;
 }
 
-.product-tile .in-stock {
+.product-tile p.in-stock {
     color: var(--success)
 }
 
-.product-tile .out-of-stock {
+.product-tile p.out-of-stock {
     color: var(--error)
 }
 

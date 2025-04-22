@@ -4,6 +4,18 @@
     display: block;
 }
 
+.checkout-content {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    background: var(--content-bg-primary);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
 .form-section {
     flex: 1;
     padding-right: 2rem;
@@ -40,6 +52,7 @@ input:focus, select:focus {
 }
 
 button {
+    margin-top: 1rem;
     width: 100%;
     padding: 1rem;
     background: var(--accent-primary);
