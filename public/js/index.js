@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch and render initial products
     productManager.fetchAndRenderProducts();
+    // Load initial cart (to load from previous session)
+    cartManager.updateCartUI();
 
     // Initialize search manager
     const searchManager = new SearchManager(productManager);

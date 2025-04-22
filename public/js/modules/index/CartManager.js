@@ -9,7 +9,8 @@ export default class CartManager {
 
         this.cartContainer = document.getElementById("shopping-cart");
         this.cartItemsContainer = document.getElementById("cart-items");
-        this.checkoutButton = document.getElementById("checkout");
+        this.clearCartButton = document.getElementById("clear-cart-button")
+        this.checkoutButton = document.getElementById("checkout-button");
         this.cartIcon = document.querySelector(".shopping-cart a");
 
         this.initEventListeners();
@@ -34,71 +35,76 @@ export default class CartManager {
         this.cartItemsContainer.innerHTML = "";
 
         if (Object.keys(this.cart).length === 0) {
-            const emptyMsg = document.createElement("p");
-            emptyMsg.className = "cart-empty";
-            emptyMsg.textContent = "Your cart is empty";
-            this.cartItemsContainer.appendChild(emptyMsg);
-
-            const totalElement = document.getElementById("cart-total");
-            if (totalElement) {
-                totalElement.parentElement.remove();
-            }
+            this.renderEmptyCart();
             return;
         }
 
-        // Use Object.entries to get both index and item
-        Object.entries(this.cart).forEach(([productId, item], index, array) => {
+        this.renderCartItems();
+        this.updateTotal();
+        this.updateButtons(true);
+    }
+
+    renderEmptyCart() {
+        const emptyMsg = document.createElement("p");
+        emptyMsg.className = "cart-empty";
+        emptyMsg.textContent = "Your cart is empty";
+        this.cartItemsContainer.appendChild(emptyMsg);
+
+        const totalElement = document.getElementById("cart-total");
+        if (totalElement) {
+            totalElement.parentElement.remove();
+        }
+
+        this.updateButtons(false)
+    }
+
+    renderCartItems() {
+        Object.entries(this.cart).forEach(([productId, item]) => {
             if (!item || !item.name || !item.price) {
                 console.warn(`Invalid cart item for product ${productId}:`, item);
+                delete this.cart[productId];
                 return;
             }
 
             const li = document.createElement("li");
             li.classList.add("cart-item");
 
-            // Match the image handling from ProductManager
             const imageName = item.name.replace(/\s+/g, '');
-
             li.innerHTML = `
-                <div class="item-info">
-                    <img src="images/products/${imageName}.png" alt="${item.name}" onerror="this.src='images/products/placeholder.png';">
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
-                </div>
-                <div class="quantity-control">
-                    <button class="decrease" data-id="${productId}">-</button>
-                    <span>${item.quantity}</span>
-                    <button class="increase" data-id="${productId}">+</button>
-                </div>
+            <div class="item-info">
+                <img src="images/products/${imageName}.png" alt="${item.name}" onerror="this.src='images/products/placeholder.png';">
+                <span class="item-name">${item.name}</span>
+                <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+            </div>
+            <div class="quantity-control">
+                <button class="decrease" data-id="${productId}">-</button>
+                <span>${item.quantity}</span>
+                <button class="increase" data-id="${productId}">+</button>
+            </div>
             `;
             this.cartItemsContainer.appendChild(li);
-
-            // Only add separator if it's not the last item
-            if (index < array.length - 1) {
-                const separator = document.createElement("div");
-                separator.className = "cart-separator";
-                this.cartItemsContainer.appendChild(separator);
-            }
         });
+    }
 
-        const totalElement = document.getElementById("cart-total");
-        if (totalElement) {
-            totalElement.textContent = `$${this.calculateTotal()}`;
-        } else if (this.cartContainer && this.checkoutButton) {
+    updateTotal() {
+        const total = this.calculateTotal();
+        let totalElement = document.getElementById("cart-total");
+        if (!totalElement) {
             const totalDiv = document.createElement("div");
             totalDiv.className = "cart-total-container";
             totalDiv.innerHTML = `
-                <span>Total:</span>
-                <span id="cart-total">$${this.calculateTotal()}</span>
+            <span>Total:</span>
+            <span id="cart-total">$${total}</span>
             `;
-            this.cartContainer.insertBefore(totalDiv, this.checkoutButton);
+            this.cartContainer.insertBefore(totalDiv, this.clearCartButton);
+        } else {
+            totalElement.textContent = `$${total}`;
         }
+    }
 
-        try {
-            localStorage.setItem("cart", JSON.stringify(this.cart));
-        } catch (error) {
-            console.error('Error saving cart to localStorage:', error);
-        }
+    updateButtons(isCartNotEmpty) {
+        this.clearCartButton.disabled = !isCartNotEmpty;
+        this.checkoutButton.disabled = !isCartNotEmpty;
     }
 
     addToCart(id, name, price) {
@@ -122,6 +128,7 @@ export default class CartManager {
             };
         }
 
+        this.syncCartWithLocalStorage();
         this.updateCartUI();
 
         // Safely toggle cart visibility
@@ -139,6 +146,7 @@ export default class CartManager {
         if (event.target.classList.contains("increase")) {
             if (this.cart[productId]) {
                 this.cart[productId].quantity++;
+                this.syncCartWithLocalStorage();
                 this.updateCartUI();
             }
         } else if (event.target.classList.contains("decrease")) {
@@ -148,10 +156,29 @@ export default class CartManager {
                 } else {
                     delete this.cart[productId];
                 }
+                this.syncCartWithLocalStorage();
                 this.updateCartUI();
             }
         }
     }
+
+    syncCartWithLocalStorage() {
+        if (Object.keys(this.cart).length === 0) {
+            localStorage.removeItem("cart");
+        } else {
+            localStorage.setItem("cart", JSON.stringify(this.cart));
+        }
+    }
+
+    clearCart() {
+        // Reset the cart object
+        this.cart = {};
+
+        // Sync Local Storage and update UI
+        this.syncCartWithLocalStorage();
+        this.updateCartUI();
+    }
+
 
     initEventListeners() {
         // Add null checks
@@ -167,6 +194,17 @@ export default class CartManager {
 
         if (this.cartItemsContainer) {
             this.cartItemsContainer.addEventListener("click", (event) => this.handleCartClick(event));
+        }
+
+        if (this.clearCartButton) {
+            this.clearCartButton.addEventListener("click", () => this.clearCart());
+        }
+
+        if (this.checkoutButton) {
+            this.checkoutButton.addEventListener("click", (event) => {
+                event.preventDefault();
+                window.location.href = "checkout.html";
+            });
         }
     }
 }

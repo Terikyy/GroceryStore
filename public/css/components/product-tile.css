@@ -37,6 +37,14 @@
     margin-bottom: 10px;
 }
 
+.product-tile .in-stock {
+    color: var(--success)
+}
+
+.product-tile .out-of-stock {
+    color: var(--error)
+}
+
 /* Add to Cart Button */
 .product-tile .add-to-cart {
     background: var(--accent-primary);
@@ -55,4 +63,9 @@
 
 .product-tile .add-to-cart:hover {
     background: var(--accent-secondary);
+}
+
+.product-tile .add-to-cart:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
 }

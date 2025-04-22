@@ -28,7 +28,7 @@ export default class CartDisplayManager {
         const cartEntries = Object.entries(this.cart);
         if (cartEntries.length === 0) {
             const emptyMessage = document.createElement("li");
-            emptyMessage.textContent = "Your basket is empty.";
+            emptyMessage.textContent = "Your cart is empty.";
             cartContainer.appendChild(emptyMessage);
             return;
         }

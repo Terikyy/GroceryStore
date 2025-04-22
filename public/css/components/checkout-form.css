@@ -87,3 +87,11 @@ button:hover {
 .inline-fields select {
     flex: 1;
 }
+
+input.error {
+    border: 2px solid var(--error);
+}
+
+input.valid {
+    border: 2px solid var(--success);
+}

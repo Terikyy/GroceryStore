@@ -37,15 +37,26 @@ export default class ProductManager {
         // Replace generic placeholder with more specific image generation
         const imageName = product.product_name.replace(/\s+/g, '');
 
-        tile.innerHTML = `
+        if (product.in_stock > 0) {
+            tile.innerHTML = `
             <img src="images/products/${imageName}.png" alt="${product.product_name}" onerror="this.src='images/products/placeholder.png';">
             <h3>${product.product_name}</h3>
             <p>$${parseFloat(product.unit_price).toFixed(2)}</p>
             <p>Size: ${product.unit_quantity}</p>
-            <p>In Stock: ${product.in_stock}</p>
+            <p class="in-stock">In Stock (${product.in_stock})</p>
             <button class="add-to-cart" data-id="${product.product_id}">Add to Cart</button>
-        `;
-
+            `;
+        }
+        else {
+            tile.innerHTML = `
+            <img src="images/products/${imageName}.png" alt="${product.product_name}" onerror="this.src='images/products/placeholder.png';">
+            <h3>${product.product_name}</h3>
+            <p>$${parseFloat(product.unit_price).toFixed(2)}</p>
+            <p>Size: ${product.unit_quantity}</p>
+            <p class="out-of-stock">Out Of Stock</p>
+            <button class="add-to-cart" data-id="${product.product_id}" disabled>Add to Cart</button>
+            `;
+        }
         return tile;
     }
 
