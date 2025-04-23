@@ -1,5 +1,6 @@
 export default class CartManager {
     constructor() {
+        // Initialize the cart by retrieving it from local storage
         try {
             this.cart = JSON.parse(localStorage.getItem("cart")) || {};
         } catch (error) {
@@ -7,16 +8,19 @@ export default class CartManager {
             this.cart = {};
         }
 
+        // DOM elements for cart functionality
         this.cartContainer = document.getElementById("shopping-cart");
         this.cartItemsContainer = document.getElementById("cart-items");
         this.clearCartButton = document.getElementById("clear-cart-button");
         this.checkoutButton = document.getElementById("checkout-button");
         this.cartIcon = document.querySelector(".shopping-cart a");
 
+        // Initialize event listeners and check URL parameters
         this.initEventListeners();
         this.checkForShowCartParameter();
     }
 
+    // Check if the URL contains a parameter to show the cart
     checkForShowCartParameter() {
         const urlParams = new URLSearchParams(window.location.search);
         const showCart = urlParams.get('showCart') === 'true';
@@ -27,6 +31,7 @@ export default class CartManager {
         }
     }
 
+    // Calculate the total price of items in the cart
     calculateTotal() {
         return Object.values(this.cart).reduce((total, item) => {
             if (!item || typeof item !== 'object') {
@@ -37,26 +42,32 @@ export default class CartManager {
         }, 0).toFixed(2);
     }
 
+    // Update the cart UI to reflect the current cart state
     updateCartUI() {
         if (!this.cartItemsContainer) {
             console.error('Cart items container not found');
             return;
         }
 
+        // Clear the cart items container
         this.cartItemsContainer.innerHTML = "";
 
+        // Check if the cart is empty
         if (Object.keys(this.cart).length === 0) {
             this.renderEmptyCart();
             return;
         }
 
+        // Render cart items, update total, and enable buttons
         this.renderCartItems();
         this.updateTotal();
         this.updateButtons(true);
 
+        // Validate stock for cart items
         this.validateCartStock();
     }
 
+    // Render a message when the cart is empty
     renderEmptyCart() {
         const emptyMsg = document.createElement("p");
         emptyMsg.className = "cart-empty";
@@ -68,9 +79,10 @@ export default class CartManager {
             totalElement.parentElement.remove();
         }
 
-        this.updateButtons(false)
+        this.updateButtons(false);
     }
 
+    // Render all items in the cart
     renderCartItems() {
         Object.entries(this.cart).forEach(([productId, item]) => {
             if (!item || !item.name || !item.price) {
@@ -79,6 +91,7 @@ export default class CartManager {
                 return;
             }
 
+            // Create a list item for each cart product
             const li = document.createElement("li");
             li.classList.add("cart-item");
             li.dataset.id = productId;
@@ -100,6 +113,7 @@ export default class CartManager {
         });
     }
 
+    // Update the total price in the cart UI
     updateTotal() {
         const total = this.calculateTotal();
         let totalElement = document.getElementById("cart-total");
@@ -116,11 +130,13 @@ export default class CartManager {
         }
     }
 
+    // Enable or disable cart buttons based on cart state
     updateButtons(isCartNotEmpty) {
         this.clearCartButton.disabled = !isCartNotEmpty;
         this.checkoutButton.disabled = !isCartNotEmpty;
     }
 
+    // Add a product to the cart
     addToCart(id, name, price, size) {
         // Validate input
         if (!id || !name || price === undefined || !size) {
@@ -143,16 +159,18 @@ export default class CartManager {
             };
         }
 
+        // Sync cart with local storage and update UI
         this.syncCartWithLocalStorage();
         this.updateCartUI();
 
-        // Safely toggle cart visibility
+        // Show the cart if hidden
         if (this.cartContainer) {
             this.cartContainer.classList.remove("cart-hidden");
             this.cartContainer.classList.add("cart-visible");
         }
     }
 
+    // Handle click events on the cart (e.g., increase or decrease quantity)
     handleCartClick(event) {
         const productId = event.target.dataset.id;
 
@@ -177,6 +195,7 @@ export default class CartManager {
         }
     }
 
+    // Sync the cart with local storage
     syncCartWithLocalStorage() {
         if (Object.keys(this.cart).length === 0) {
             localStorage.removeItem("cart");
@@ -185,6 +204,7 @@ export default class CartManager {
         }
     }
 
+    // Clear all items from the cart
     clearCart() {
         // Reset the cart object
         this.cart = {};
@@ -193,6 +213,7 @@ export default class CartManager {
         this.updateCartUI();
     }
 
+    // Validate stock for items in the cart
     validateCartStock() {
         let isValid = true;
 
@@ -220,8 +241,9 @@ export default class CartManager {
         this.checkoutButton.disabled = !isValid;
     }
 
+    // Initialize event listeners for cart actions
     initEventListeners() {
-        // Add null checks
+        // Toggle cart visibility on cart icon click
         if (this.cartIcon) {
             this.cartIcon.addEventListener("click", (event) => {
                 event.preventDefault();
@@ -232,14 +254,17 @@ export default class CartManager {
             });
         }
 
+        // Handle cart item actions (increase/decrease quantity)
         if (this.cartItemsContainer) {
             this.cartItemsContainer.addEventListener("click", (event) => this.handleCartClick(event));
         }
 
+        // Clear the cart on button click
         if (this.clearCartButton) {
             this.clearCartButton.addEventListener("click", () => this.clearCart());
         }
 
+        // Redirect to checkout page on button click
         if (this.checkoutButton) {
             this.checkoutButton.addEventListener("click", (event) => {
                 event.preventDefault();
