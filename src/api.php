@@ -40,7 +40,7 @@ function handleRequest(): void
                 break;
 
             case 'update-quantity':
-                if ($method === 'PUT') {
+                if ($method === 'POST') {
                     updateProductQuantity();
                 }
                 break;
@@ -144,7 +144,7 @@ function checkProductStock(): void
     if ($row = $result->fetch_assoc()) {
         echo json_encode([
             "product_name" => $row['product_name'],
-            "in_stock" => $row['in_stock'] > 0
+            "in_stock" => $row['in_stock']
         ]);
     } else {
         http_response_code(404);

@@ -9,9 +9,15 @@ export default class CartManager {
 
         this.cartContainer = document.getElementById("shopping-cart");
         this.cartItemsContainer = document.getElementById("cart-items");
-        this.clearCartButton = document.getElementById("clear-cart-button")
+        this.clearCartButton = document.getElementById("clear-cart-button");
         this.checkoutButton = document.getElementById("checkout-button");
         this.cartIcon = document.querySelector(".shopping-cart a");
+
+        // Show the cart if it contains items
+        if (Object.keys(this.cart).length > 0 && this.cartContainer) {
+            this.cartContainer.classList.remove("cart-hidden");
+            this.cartContainer.classList.add("cart-visible");
+        }
 
         this.initEventListeners();
     }
@@ -73,7 +79,7 @@ export default class CartManager {
             li.innerHTML = `
             <div class="item-info">
                 <img src="images/products/${imageName}.png" alt="${item.name}" onerror="this.src='images/products/placeholder.png';">
-                <span class="item-name">${item.name}</span>
+                <span class="item-name">${item.name}<br> (${item.size})</span>
                 <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
             </div>
             <div class="quantity-control">
@@ -107,9 +113,9 @@ export default class CartManager {
         this.checkoutButton.disabled = !isCartNotEmpty;
     }
 
-    addToCart(id, name, price) {
+    addToCart(id, name, price, size) {
         // Validate input
-        if (!id || !name || price === undefined) {
+        if (!id || !name || price === undefined || !size) {
             console.error('Invalid cart item parameters:', { id, name, price });
             return;
         }
@@ -124,6 +130,7 @@ export default class CartManager {
                 id: productId,
                 name,
                 price: Number(price),
+                size,
                 quantity: 1
             };
         }

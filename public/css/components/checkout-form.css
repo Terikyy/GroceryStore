@@ -12,13 +12,17 @@
     border-radius: 12px;
     box-shadow: 0 4px 10px var(--shadow-color);
     padding: 2rem;
-    max-width: 800px;
+    max-width: 900px;
     margin: 2rem auto;
+    max-height: 90vh;
+    overflow: hidden;
 }
 
 .form-section {
     flex: 1;
     padding-right: 2rem;
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 .cart-container {
@@ -27,6 +31,8 @@
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 6px var(--shadow-color);
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 label {
@@ -68,6 +74,11 @@ button:hover {
     background: var(--accent-secondary);
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .cart-container h2 {
     margin-bottom: 1rem;
     color: var(--content-text-primary);
@@ -79,15 +90,23 @@ button:hover {
 }
 
 .cart-container li {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light);
+    gap: 1rem;
+}
+
+.cart-container li span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #checkout-total {
     font-weight: bold;
-    color: var(--content-text-secondary);
+    color: var(--accent-primary);
 }
 
 /* Adjustments for side-by-side input fields */

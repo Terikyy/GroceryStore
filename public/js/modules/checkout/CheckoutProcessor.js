@@ -1,26 +1,83 @@
+import CartManager from '../index/CartManager.js';
+
 export default class CheckoutProcessor {
     constructor(cartItems) {
-        this.cartItems = cartItems; // Array of cart items
+        this.apiBaseUrl = '../src/api.php';
+        this.cartItems = cartItems; // Object of cart items
     }
 
-    validateStock() {
-        // Simulate stock validation
-        return this.cartItems.every(item => item.quantity <= item.stock);
-    }
+    async validateStockWithDatabase() {
+        const insufficientStockItems = [];
 
-    processCheckout() {
-        if (!this.validateStock()) {
-            alert('Some items in your cart are out of stock.');
+        for (const item of Object.values(this.cartItems)) {
+            const response = await fetch(`${this.apiBaseUrl}?endpoint=check-stock&product_id=${item.id}`);
+            if (!response.ok) {
+                throw new Error(`Failed to check stock for product ID: ${item.id}`);
+            }
+
+            const data = await response.json();
+            if (!data.in_stock || item.quantity > data.in_stock) {
+                insufficientStockItems.push({
+                    name: item.name,
+                    requested: item.quantity,
+                    available: data.in_stock || 0
+                });
+            }
+        }
+
+        if (insufficientStockItems.length > 0) {
+            const message = insufficientStockItems.map(item =>
+                `${item.name}: Requested ${item.requested}, Available ${item.available}`
+            ).join('\n');
+            alert(`The following items are not in sufficient stock:\n\n${message}`);
             return false;
         }
 
-        // Deduct stock
-        this.cartItems.forEach(item => {
-            item.stock -= item.quantity;
-        });
-
-        alert('Checkout successful!');
-        window.location.href = '/confirmation.html'; // Redirect to confirmation page
         return true;
+    }
+
+    async updateStockInDatabase() {
+        for (const item of Object.values(this.cartItems)) {
+            const payload = {
+                product_id: item.id,
+                quantity_change: item.quantity
+            };
+
+            const response = await fetch(`${this.apiBaseUrl}?endpoint=update-quantity`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to update stock for product ID: ${item.id}. Error: ${responseData.error || 'Unknown error'}`);
+            }
+        }
+    }
+
+    async processCheckout() {
+        try {
+            const isStockValid = await this.validateStockWithDatabase();
+            if (!isStockValid) {
+                window.location.href = 'index.html'; // Redirect to index.html with the cart shown
+                return false;
+            }
+
+            // Update stock in the database
+            await this.updateStockInDatabase();
+
+            // Clear the user's shopping cart
+            const cartManager = new CartManager();
+            cartManager.clearCart();
+
+            // Placeholder for order processing logic (not required for this assignment)
+
+            window.location.href = 'confirmation.html'; // Redirect to confirmation page
+            return true;
+        } catch (error) {
+            console.error('Error during checkout:', error);
+            alert('An error occurred during checkout. Please try again.');
+            return false;
+        }
     }
 }

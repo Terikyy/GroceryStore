@@ -41,7 +41,7 @@ export default class CartDisplayManager {
 
             const itemElement = document.createElement("li");
             itemElement.innerHTML = `
-                <span>${item.name}</span>
+                <span>${item.name} <br>(${item.size})</span>
                 <span>Price: $${(item.price * item.quantity).toFixed(2)}</span>
                 <span>Quantity: ${item.quantity}</span>
             `;

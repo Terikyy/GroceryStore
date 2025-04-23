@@ -33,6 +33,7 @@ export default class ProductManager {
         tile.dataset.id = product.product_id;
         tile.dataset.name = product.product_name;
         tile.dataset.price = product.unit_price;
+        tile.dataset.size = product.unit_quantity;
 
         // Replace generic placeholder with more specific image generation
         const imageName = product.product_name.replace(/\s+/g, '');
@@ -79,9 +80,10 @@ export default class ProductManager {
             const id = productTile.dataset.id;
             const name = productTile.dataset.name;
             const price = parseFloat(productTile.dataset.price);
+            const size = productTile.dataset.size; // Access size directly from the dataset
 
             // Directly call addToCart on the cart manager
-            this.cartManager.addToCart(id, name, price);
+            this.cartManager.addToCart(id, name, price, size);
         };
     }
 }
