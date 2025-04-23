@@ -13,13 +13,18 @@ export default class CartManager {
         this.checkoutButton = document.getElementById("checkout-button");
         this.cartIcon = document.querySelector(".shopping-cart a");
 
-        // Show the cart if it contains items
-        if (Object.keys(this.cart).length > 0 && this.cartContainer) {
+        this.initEventListeners();
+        this.checkForShowCartParameter();
+    }
+
+    checkForShowCartParameter() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const showCart = urlParams.get('showCart') === 'true';
+
+        if (showCart && this.cartContainer) {
             this.cartContainer.classList.remove("cart-hidden");
             this.cartContainer.classList.add("cart-visible");
         }
-
-        this.initEventListeners();
     }
 
     calculateTotal() {
@@ -48,6 +53,8 @@ export default class CartManager {
         this.renderCartItems();
         this.updateTotal();
         this.updateButtons(true);
+
+        this.validateCartStock();
     }
 
     renderEmptyCart() {
@@ -74,6 +81,7 @@ export default class CartManager {
 
             const li = document.createElement("li");
             li.classList.add("cart-item");
+            li.dataset.id = productId;
 
             const imageName = item.name.replace(/\s+/g, '');
             li.innerHTML = `
@@ -181,11 +189,36 @@ export default class CartManager {
         // Reset the cart object
         this.cart = {};
 
-        // Sync Local Storage and update UI
         this.syncCartWithLocalStorage();
         this.updateCartUI();
     }
 
+    validateCartStock() {
+        let isValid = true;
+
+        Object.entries(this.cart).forEach(([productId, item]) => {
+            const cartItemElement = document.querySelector(`.cart-item[data-id="${productId}"]`);
+            // Use stock stored in the product tile
+            const productTile = document.querySelector(`.product-tile[data-id="${productId}"]`);
+            const availableStock = parseInt(productTile?.dataset.stock || 0, 10);
+
+            // Find the quantity element
+            const quantityElement = cartItemElement?.querySelector(".quantity-control span");
+
+            if (quantityElement) {
+                // Remove any existing "exceeds-stock" class
+                quantityElement.classList.remove("exceeds-stock");
+
+                if (item.quantity > availableStock) {
+                    isValid = false;
+                    // Add the "exceeds-stock" class if quantity exceeds stock
+                    quantityElement.classList.add("exceeds-stock");
+                }
+            }
+        });
+
+        this.checkoutButton.disabled = !isValid;
+    }
 
     initEventListeners() {
         // Add null checks

@@ -3,7 +3,7 @@ import CartManager from '../index/CartManager.js';
 export default class CheckoutProcessor {
     constructor(cartItems) {
         this.apiBaseUrl = '../src/api.php';
-        this.cartItems = cartItems; // Object of cart items
+        this.cartItems = cartItems;
     }
 
     async validateStockWithDatabase() {
@@ -59,7 +59,7 @@ export default class CheckoutProcessor {
         try {
             const isStockValid = await this.validateStockWithDatabase();
             if (!isStockValid) {
-                window.location.href = 'index.html'; // Redirect to index.html with the cart shown
+                window.location.href = 'index.html?showCart=true'; // Redirect with query parameter
                 return false;
             }
 

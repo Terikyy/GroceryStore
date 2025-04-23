@@ -34,6 +34,7 @@ export default class ProductManager {
         tile.dataset.name = product.product_name;
         tile.dataset.price = product.unit_price;
         tile.dataset.size = product.unit_quantity;
+        tile.dataset.stock = product.in_stock;
 
         // Replace generic placeholder with more specific image generation
         const imageName = product.product_name.replace(/\s+/g, '');

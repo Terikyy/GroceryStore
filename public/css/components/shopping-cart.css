@@ -110,6 +110,11 @@
     color: var(--content-text-primary);
 }
 
+.quantity-control span.exceeds-stock {
+    color: var(--error);
+    font-weight: bold;
+}
+
 .cart-total-container {
     display: flex;
     justify-content: space-between;

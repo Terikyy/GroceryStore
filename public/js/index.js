@@ -10,10 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize product manager
     const productManager = new ProductManager(cartManager);
 
-    // Fetch and render initial products
-    productManager.fetchAndRenderProducts();
-    // Load initial cart (to load from previous session)
-    cartManager.updateCartUI();
+    // Fetch and render products
+    productManager.fetchAndRenderProducts().then(() => {
+        // Wait for the DOM to update after rendering products
+        setTimeout(() => {
+            cartManager.updateCartUI(); // Validate stock after products are rendered
+        }, 0);
+    });
 
     // Initialize search manager
     const searchManager = new SearchManager(productManager);
